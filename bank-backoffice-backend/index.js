@@ -1,31 +1,33 @@
 const express = require('express');
-const mysql = require('mysql2');
 const app = express();
-const connectionDB =  require('./database')
+const sequelizeConnectionDB =  require('./database')
+const Manager = require('./models/manager');
+const Customer = require('./models/customer');
+
+module.exports = { Manager, Customer };
 
 
 
+app.get('/', async (req, res) => {
+    try {
+        // Retrieve all customers using Sequelize model method
+        const customers = await Customer.findAll();
+        // Send the retrieved data as a response
+        res.json(customers);
+    } catch (error) {
+        console.error('Error retrieving customers:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
-app.get('/',function(req,res){
-   
-    connectionDB.query('SELECT * FROM Customers',function(err,result){
-        if(err) throw err;
-        // print the data retrived 
-        res.send(result)
-    });
-})
 
-
-
-
-
-app.listen(5000, function(){
+app.listen(5000, async function(){
     console.log('App listening on port 5000');
-    connectionDB.connect(function(err){
-        // if there is an error 
-        if(err) throw err;
-        // else console log the connection status
-        console.log('Connected to the database');
-    })
+    try {
+        await sequelizeConnectionDB.authenticate();
+        console.log('Connection has been established successfully.');
+      } catch (error) {
+        console.error('Unable to connect to the database:', error);
+      }
 });
