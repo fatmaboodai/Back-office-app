@@ -4,7 +4,8 @@ const Manager = sequelize.define('Manager', {
     ManagerID: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true 
     },
     ManagerName: {
         type: DataTypes.STRING,

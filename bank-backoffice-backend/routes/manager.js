@@ -8,7 +8,10 @@ router.get('/', managerController.getAllManagers);
 // Route to get a manager by ID
 router.get('/:id', managerController.getManagerById);
 
-// Route to add a new manager
-router.post('/add', managerController.addManager);
+// Route to register a new manager
+router.post('/register', managerController.registerManager);
+
+// Route to login a manager
+router.post('/login', managerController.loginManager);
 
 module.exports = router;

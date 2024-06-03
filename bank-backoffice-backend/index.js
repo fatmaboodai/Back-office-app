@@ -5,10 +5,11 @@ const Manager = require('./models/manager');
 const Customer = require('./models/customer');
 const customerRouter = require('./routes/customer');
 const managerRouter = require('./routes/manager');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 app.use(express.json());
-
-
 
 app.use('/customers', customerRouter);
 app.use('/managers', managerRouter);
