@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database'); 
-
 const Manager = sequelize.define('Manager', {
     ManagerID: {
         type: DataTypes.INTEGER,
@@ -9,6 +8,15 @@ const Manager = sequelize.define('Manager', {
     },
     ManagerName: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    Email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    password: {
+        type: DataTypes.STRING, // or use TEXT if needed
         allowNull: false
     }
 }, {

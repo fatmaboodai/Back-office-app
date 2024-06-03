@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "fatma@2001$_",
+    "database": "bank_app",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

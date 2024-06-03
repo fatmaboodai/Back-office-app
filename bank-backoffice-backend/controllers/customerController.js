@@ -1,31 +1,37 @@
-const { Customer } = require('../models/customer'); // Import Sequelize Customer model
+const  Customer  = require('../models/customer'); 
 
 
-// Get all customers from the database
+// Get all customers associated with a specific manager ID
 exports.getAllCustomers = async (req, res) => {
     try {
-        // pass the manager's data while getting the customers
-        const customers = await Customer.findAll({ include: 'Manager' }); 
+        // Extract manager ID from request parameters
+        const { ManagerID } = req.params;
+
+        // Find all customers where managerId matches the specified ID
+        const customers = await Customer.findAll({
+            where: {
+                ManagerID: ManagerID
+            }
+        });
+
+        // Send JSON response with customers
         res.json(customers);
     } catch (err) {
-        //  server error
+        // Handle any errors and send error response
         res.status(500).json({ error: err.message });
     }
 };
 
-
-
 // Add a new customer to the database
 exports.addCustomer = async (req, res) => {
     try {
-        // assign all the data coming from the req.body to vars
         const { CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID } = req.body;
-        // create a new customer
+        if (!CustomerNumber || !CustomerName || !DateOfBirth || !Gender || !ManagerID) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
         const customer = await Customer.create({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID });
-        // created successfully
         res.status(201).json(customer);
     } catch (err) {
-        //  server error 
         res.status(500).json({ error: err.message });
     }
 };
@@ -33,12 +39,43 @@ exports.addCustomer = async (req, res) => {
 // Update an existing customer in the database
 exports.updateCustomer = async (req, res) => {
     try {
+        // Extract the customer ID from request 
         const { id } = req.params;
+        // get the rest of the customer's info
         const { CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID } = req.body;
-        await Customer.update({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID }, { where: { CustomerID: id } });
+
+         // Update the customer in the database with the given ID
+        await Customer.update({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID }, { where: { CustomerNumber: id } });
+         // updated successfully
         res.json({ message: 'Customer updated successfully' });
     } catch (err) {
+        // server error
         res.status(500).json({ error: err.message });
     }
 };
 
+
+// extra function for better design of the app 
+// Delete a customer from the database
+exports.deleteCustomer = async (req, res) => {
+    try {
+        // Extract the customer ID from request 
+        const { id } = req.params;
+        // Find the customer by ID
+        const customer = await Customer.findByPk(id);
+
+        // If customer does not exist, return 404 Not Found
+        if (!customer) {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+
+        // Delete the customer
+        await customer.destroy();
+
+        // Return success message
+        res.json({ message: 'Customer deleted successfully' });
+    } catch (err) {
+        // server error
+        res.status(500).json({ error: err.message });
+    }
+};
