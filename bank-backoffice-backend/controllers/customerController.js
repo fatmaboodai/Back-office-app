@@ -2,25 +2,25 @@ const  Customer  = require('../models/customer');
 
 // // can manage all customers
 // // Get all customers associated with a specific manager ID
-// exports.getAllCustomers = async (req, res) => {
-//     try {
-//         // Extract manager ID from request parameters
-//         const { ManagerID } = req.params;
+exports.getAllCustomers = async (req, res) => {
+    try {
+        // Extract manager ID from request parameters
+        const { ManagerID } = req.params;
 
-//         // Find all customers where managerId matches the specified ID
-//         const customers = await Customer.findAll({
-//             where: {
-//                 ManagerID: ManagerID
-//             }
-//         });
+        // Find all customers where managerId matches the specified ID
+        const customers = await Customer.findAll({
+            where: {
+                ManagerID: ManagerID
+            }
+        });
 
-//         // Send JSON response with customers
-//         res.json(customers);
-//     } catch (err) {
-//         // Handle any errors and send error response
-//         res.status(500).json({ error: err.message });
-//     }
-// };
+        // Send JSON response with customers
+        res.json(customers);
+    } catch (err) {
+        // Handle any errors and send error response
+        res.status(500).json({ error: err.message });
+    }
+};
 
 // // Add a new customer to the database
 // exports.addCustomer = async (req, res) => {
@@ -83,33 +83,33 @@ const  Customer  = require('../models/customer');
 
 
 //  only manage their own customers
-exports.getAllCustomers = async (req, res) => {
-    try {
-        // Get the manager ID from the token (set by the verifyToken middleware)
-        const managerIDFromToken = req.manager.id;
+// exports.getAllCustomers = async (req, res) => {
+//     try {
+//         // Get the manager ID from the token (set by the verifyToken middleware)
+//         const managerIDFromToken = req.manager.id;
 
-        // Get the manager ID from the request parameters
-        const { ManagerID } = req.params;
+//         // Get the manager ID from the request parameters
+//         const { ManagerID } = req.params;
 
-        // Check if the manager is trying to access their own customers
-        if (managerIDFromToken !== parseInt(ManagerID)) {
-            return res.status(403).json({ error: 'Unauthorized access to customers' });
-        }
+//         // Check if the manager is trying to access their own customers
+//         if (managerIDFromToken !== parseInt(ManagerID)) {
+//             return res.status(403).json({ error: 'Unauthorized access to customers' });
+//         }
 
-        // Find all customers where ManagerID matches the specified ID
-        const customers = await Customer.findAll({
-            where: {
-                ManagerID: ManagerID
-            }
-        });
+//         // Find all customers where ManagerID matches the specified ID
+//         const customers = await Customer.findAll({
+//             where: {
+//                 ManagerID: ManagerID
+//             }
+//         });
 
-        // Send JSON response with customers
-        res.json(customers);
-    } catch (err) {
-        // Handle any errors and send error response
-        res.status(500).json({ error: err.message });
-    }
-};
+//         // Send JSON response with customers
+//         res.json(customers);
+//     } catch (err) {
+//         // Handle any errors and send error response
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 
 exports.addCustomer = async (req, res) => {
     try {
