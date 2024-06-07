@@ -1,32 +1,38 @@
 <div class="container">
-    <h2>Manager Registration</h2>
-    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
+    <mat-card>
+      <h2>Manager Registration</h2>
+      <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()" novalidate>
         <div class="form-group">
-            <label for="managerName">Manager Name</label>
-            <input type="text" id="managerName" formControlName="ManagerName" class="form-control" required />
-            <div *ngIf="submitted && isNameEmpty()" class="invalid-feedback">
-                Manager Name is required
-            </div>
-            <div *ngIf="submitted && !managerNameValidator(registrationForm.get('ManagerName')?.value)" class="invalid-feedback">
-                Manager Name must contain only letters and spaces
-            </div>
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label for="managerName">Manager Name</mat-label>
+            <input matInput type="text" id="managerName" formControlName="ManagerName" required />
+            <mat-error *ngIf="submitted && isNameEmpty()">Manager Name is required</mat-error>
+          </mat-form-field>
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" formControlName="Email" class="form-control" required />
-            <div *ngIf="submitted && isEmailEmpty()" class="invalid-feedback">
-                <div *ngIf="isEmailEmpty()">Email is required</div>
-                <div *ngIf="!emailValidator(registrationForm.get('Email')?.value)">Email must be a valid email address</div>
-            </div>
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label for="email">Email</mat-label>
+            <input matInput type="email" id="email" formControlName="Email" required />
+            <mat-error *ngIf="submitted && isEmailEmpty()">
+              <div *ngIf="isEmailEmpty()">Email is required</div>
+              <div *ngIf="!emailValidator(registrationForm.get('Email')?.value)">Email must be a valid email address</div>
+            </mat-error>
+          </mat-form-field>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" formControlName="Password" class="form-control" required />
-            <div *ngIf="submitted && isPasswordEmpty()" class="invalid-feedback">
-                <div *ngIf="isPasswordEmpty()">Password is required</div>
-                <div *ngIf="!passwordValidator(registrationForm.get('Password')?.value)">Password must be at least 6 characters</div>
-            </div>
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label for="password">Password</mat-label>
+            <input matInput type="password" id="password" formControlName="Password" required />
+            <mat-error *ngIf="submitted && isPasswordEmpty()">
+              <div *ngIf="isPasswordEmpty()">Password is required</div>
+              <div *ngIf="!passwordValidator(registrationForm.get('Password')?.value)">Password must be at least 6 characters</div>
+            </mat-error>
+          </mat-form-field>
         </div>
-        <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary">Register</button>
-    </form>
-</div>
+        <div class="form-group">
+          <button mat-raised-button type="submit" [disabled]="!registrationForm.valid" color="primary">Register</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  

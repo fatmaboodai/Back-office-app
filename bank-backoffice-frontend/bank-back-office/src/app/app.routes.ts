@@ -12,7 +12,9 @@ const routes: Routes = [
     { path: 'customers', component: CustomerListComponent },
     { path: 'customers/add', component: CustomerFormComponent },
     { path: 'customers/edit/:id', component: CustomerFormComponent },
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    // { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '**', redirectTo: '' },
+
   ];
 
 

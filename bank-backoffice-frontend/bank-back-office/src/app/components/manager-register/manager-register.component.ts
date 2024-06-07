@@ -1,16 +1,37 @@
 import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/Authservices/auth.service';
 import { Manager } from '../../interfaces/users';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-manager-register',
   standalone: true,
-  imports: [RouterOutlet, NgFor, ReactiveFormsModule, NgIf],
+  imports: [
+    RouterOutlet,
+    NgFor,
+    ReactiveFormsModule,
+    NgIf,
+    MatSlideToggleModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatCardModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './manager-register.component.html',
-  styleUrl: './manager-register.component.css'
+  styleUrl: './manager-register.component.css',
 })
 export class ManagerRegisterComponent {
   registrationForm: FormGroup;
@@ -26,24 +47,24 @@ export class ManagerRegisterComponent {
       Password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-
-  managerNameValidator(control: any): { [key: string]: boolean } | null {
-    const nameRegex = /^[a-zA-Z\s]*$/; // Allow only letters and spaces
-    if (control.value && !nameRegex.test(control.value)) {
-      return { 'invalidManagerName': true };
-    }
-    return null;
-  }
-
   isEmailEmpty(): boolean {
-    return this.registrationForm?.get('Email')?.value.trim() === '' || !this.registrationForm.get('Email');
+    return (
+      this.registrationForm?.get('Email')?.value.trim() === '' ||
+      !this.registrationForm.get('Email')
+    );
   }
   isNameEmpty(): boolean {
-    return this.registrationForm?.get('ManagerName')?.value.trim() === '' || !this.registrationForm.get('ManagerName');
+    return (
+      this.registrationForm?.get('ManagerName')?.value.trim() === '' ||
+      !this.registrationForm.get('ManagerName')
+    );
   }
 
   isPasswordEmpty(): boolean {
-    return this.registrationForm?.get('Password')?.value.trim() === '' || !this.registrationForm.get('Password');
+    return (
+      this.registrationForm?.get('Password')?.value.trim() === '' ||
+      !this.registrationForm.get('Password')
+    );
   }
 
   emailValidator(value: string): boolean {
@@ -56,7 +77,6 @@ export class ManagerRegisterComponent {
     return typeof value === 'string' && value.length >= minLength;
   }
 
-
   submitRegistrationForm() {
     this.submitted = true;
     if (this.registrationForm.invalid) {
@@ -68,10 +88,9 @@ export class ManagerRegisterComponent {
       ManagerID: 0, // You can set it to any default value or handle it accordingly
       ManagerName: this.registrationForm.get('ManagerName')?.value,
       Email: this.registrationForm.get('Email')?.value,
-      password: this.registrationForm.get('Password')?.value // Add a default value to avoid null or undefined
+      Password: this.registrationForm.get('Password')?.value, // Add a default value to avoid null or undefined
     };
 
+    this.authService.register(this.registrationForm.value).subscribe((msg)=>console.log(msg));
   }
-  
 }
-

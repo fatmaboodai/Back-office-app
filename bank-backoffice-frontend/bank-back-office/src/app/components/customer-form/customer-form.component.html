@@ -1,35 +1,75 @@
 <form
- style="padding: 50px;"
- [formGroup]="CustomerForm"
- (ngSubmit)="submitForm()"
+  style="padding: 50px;"
+  [formGroup]="CustomerForm"
+  (ngSubmit)="submitForm()"
 >
-  <div>
-    <label for="CustomerName">Customer Name</label>
-    <input type="text" id="CustomerName" formControlName="CustomerName" placeholder="Enter the customer name">
-  </div>
+  <mat-card>
+    <div>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label for="CustomerName">Customer Name</mat-label>
+        <input
+          matInput
+          type="text"
+          id="CustomerName"
+          formControlName="CustomerName"
+          placeholder="Enter the customer name"
+        />
+        <mat-error *ngIf="CustomerForm.get('CustomerName')?.hasError('required')">
+          Customer Name is required
+        </mat-error>
+        <mat-error *ngIf="CustomerForm.get('CustomerName')?.hasError('pattern')">
+          Customer Name can only contain letters and spaces
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label for="DateOfBirth">Customer DateOfBirth</label>
-    <input type="date" id="DateOfBirth" formControlName="DateOfBirth">
-  </div>
+    <div>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label for="DateOfBirth">Customer Date of Birth</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          id="DateOfBirth"
+          formControlName="DateOfBirth"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="CustomerForm.get('DateOfBirth')?.hasError('required')">
+          Date of Birth is required
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label for="Gender">Customer Gender</label>
-    <select id="Gender" formControlName="Gender" required>
-      <option *ngFor="let gender of Genders" [value]="gender">{{ gender }}</option>
-    </select>
-  </div>
+    <div>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label for="Gender">Customer Gender</mat-label>
+        <mat-select id="Gender" formControlName="Gender" required>
+          <mat-option *ngFor="let gender of Genders" [value]="gender">{{ gender }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="CustomerForm.get('Gender')?.hasError('required')">
+          Gender is required
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label for="ManagerID">ManagerID</label>
-    <select id="ManagerID" formControlName="ManagerID" required>
-      <option *ngFor="let manager of Managers" [value]="manager.id">{{ manager.name }}</option>
-    </select>
-  </div>
+    <div>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label for="ManagerID">Manager ID</mat-label>
+        <mat-select id="ManagerID" formControlName="ManagerID" required>
+          <mat-option *ngFor="let manager of Managers" [value]="manager.id">
+            {{ manager.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="CustomerForm.get('ManagerID')?.hasError('required')">
+          Manager ID is required
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <button type="submit" [disabled]="!CustomerForm.valid">
-      Submit
-    </button>
-  </div>
+    <div>
+      <button mat-raised-button type="submit" [disabled]="!CustomerForm.valid" color="primary">
+        Submit
+      </button>
+    </div>
+  </mat-card>
 </form>

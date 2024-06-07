@@ -1,19 +1,35 @@
 import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/Authservices/auth.service';
 import { Manager } from '../../interfaces/users';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-manager-login',
   standalone: true,
-  imports: [RouterOutlet, NgFor, ReactiveFormsModule, NgIf],
+  imports: [
+    RouterOutlet,
+    NgFor,
+    ReactiveFormsModule,
+    NgIf,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatCardModule,
+  ],
   templateUrl: './manager-login.component.html',
-  styleUrls: ['./manager-login.component.css'] // corrected styleUrls instead of styleUrl
+  styleUrls: ['./manager-login.component.css'], // corrected styleUrls instead of styleUrl
 })
-
-
 export class ManagerLoginComponent {
   LoginForm!: FormGroup;
   submitted = false;
@@ -38,11 +54,17 @@ export class ManagerLoginComponent {
     // Call your authentication service method here
   }
   isEmailEmpty(): boolean {
-    return this.LoginForm?.get('Email')?.value.trim() === '' || !this.LoginForm.get('Email');
+    return (
+      this.LoginForm?.get('Email')?.value.trim() === '' ||
+      !this.LoginForm.get('Email')
+    );
   }
 
   isPasswordEmpty(): boolean {
-    return this.LoginForm?.get('Password')?.value.trim() === '' || !this.LoginForm.get('Password');
+    return (
+      this.LoginForm?.get('Password')?.value.trim() === '' ||
+      !this.LoginForm.get('Password')
+    );
   }
 
   emailValidator(value: string): boolean {
@@ -53,4 +75,5 @@ export class ManagerLoginComponent {
   passwordValidator(value: string): boolean {
     const minLength = 6; // Change the minimum length as needed
     return typeof value === 'string' && value.length >= minLength;
-  }}
+  }
+}

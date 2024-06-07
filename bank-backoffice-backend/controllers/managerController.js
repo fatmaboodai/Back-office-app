@@ -30,16 +30,20 @@ exports.getManagerById = async (req, res) => {
 
 
 
-// Add a new manager to the database
+
 exports.registerManager = async (req, res) => {
     try {
-        // Extract manager data from request body
         const { ManagerName, Email, Password } = req.body;
 
         // Check if the email already exists in the database
         const existingManager = await Manager.findOne({ where: { Email } });
         if (existingManager) {
             return res.status(400).json({ error: 'Email already exists' });
+        }
+
+        // Check if password is provided
+        if (!Password) {
+            return res.status(400).json({ error: 'Password is required' });
         }
 
         // Hash the provided password
@@ -49,7 +53,7 @@ exports.registerManager = async (req, res) => {
         const newManager = await Manager.create({
             ManagerName,
             Email,
-            password: hashedPassword // Store hashed password in the database
+            password: hashedPassword
         });
 
         // Send success response with newly created manager data
@@ -58,15 +62,10 @@ exports.registerManager = async (req, res) => {
             manager: newManager
         });
     } catch (error) {
-        // Handle errors
         console.error('Error registering manager:', error);
         res.status(500).json({ error: 'An error occurred while registering manager' });
     }
 };
-
-
-
-// login
 
 exports.loginManager = async (req, res) => {
     try {
@@ -92,8 +91,7 @@ exports.loginManager = async (req, res) => {
         const token = jwt.sign({ id: manager.ManagerID, email: manager.Email }, 'mykeyFatma', { expiresIn: '1h' });
 
         // Send token to client
-        res.json({ token, message:'Logged in Succesfully'
-         });
+        res.json({ token, message: 'Logged in Successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });

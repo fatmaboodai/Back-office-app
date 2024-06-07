@@ -10,6 +10,6 @@ export interface Manager {
         ManagerID: number,
         ManagerName: string,
         Email: string,
-        password: string
+        Password: string
         }
         
