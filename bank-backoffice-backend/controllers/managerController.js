@@ -92,7 +92,8 @@ exports.loginManager = async (req, res) => {
         const token = jwt.sign({ id: manager.ManagerID, email: manager.Email }, 'mykeyFatma', { expiresIn: '1h' });
 
         // Send token to client
-        res.json({ token });
+        res.json({ token, message:'Logged in Succesfully'
+         });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });

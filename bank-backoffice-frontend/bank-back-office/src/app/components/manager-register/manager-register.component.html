@@ -1,1 +1,32 @@
-<p>manager-register works!</p>
+<div class="container">
+    <h2>Manager Registration</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
+        <div class="form-group">
+            <label for="managerName">Manager Name</label>
+            <input type="text" id="managerName" formControlName="ManagerName" class="form-control" required />
+            <div *ngIf="submitted && isNameEmpty()" class="invalid-feedback">
+                Manager Name is required
+            </div>
+            <div *ngIf="submitted && !managerNameValidator(registrationForm.get('ManagerName')?.value)" class="invalid-feedback">
+                Manager Name must contain only letters and spaces
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="Email" class="form-control" required />
+            <div *ngIf="submitted && isEmailEmpty()" class="invalid-feedback">
+                <div *ngIf="isEmailEmpty()">Email is required</div>
+                <div *ngIf="!emailValidator(registrationForm.get('Email')?.value)">Email must be a valid email address</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="Password" class="form-control" required />
+            <div *ngIf="submitted && isPasswordEmpty()" class="invalid-feedback">
+                <div *ngIf="isPasswordEmpty()">Password is required</div>
+                <div *ngIf="!passwordValidator(registrationForm.get('Password')?.value)">Password must be at least 6 characters</div>
+            </div>
+        </div>
+        <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary">Register</button>
+    </form>
+</div>

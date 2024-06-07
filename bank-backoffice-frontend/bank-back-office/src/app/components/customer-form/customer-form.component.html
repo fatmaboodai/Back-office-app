@@ -1,1 +1,35 @@
-<p>customer-form works!</p>
+<form
+ style="padding: 50px;"
+ [formGroup]="CustomerForm"
+ (ngSubmit)="submitForm()"
+>
+  <div>
+    <label for="CustomerName">Customer Name</label>
+    <input type="text" id="CustomerName" formControlName="CustomerName" placeholder="Enter the customer name">
+  </div>
+
+  <div>
+    <label for="DateOfBirth">Customer DateOfBirth</label>
+    <input type="date" id="DateOfBirth" formControlName="DateOfBirth">
+  </div>
+
+  <div>
+    <label for="Gender">Customer Gender</label>
+    <select id="Gender" formControlName="Gender" required>
+      <option *ngFor="let gender of Genders" [value]="gender">{{ gender }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="ManagerID">ManagerID</label>
+    <select id="ManagerID" formControlName="ManagerID" required>
+      <option *ngFor="let manager of Managers" [value]="manager.id">{{ manager.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="!CustomerForm.valid">
+      Submit
+    </button>
+  </div>
+</form>
