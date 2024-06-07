@@ -44,15 +44,6 @@ export class ManagerLoginComponent {
       Password: ['', [Validators.required]],
     });
   }
-
-  submitForm() {
-    this.submitted = true;
-    if (this.LoginForm.invalid) {
-      return;
-    }
-    console.log(this.LoginForm.value);
-    // Call your authentication service method here
-  }
   isEmailEmpty(): boolean {
     return (
       this.LoginForm?.get('Email')?.value.trim() === '' ||
@@ -75,5 +66,16 @@ export class ManagerLoginComponent {
   passwordValidator(value: string): boolean {
     const minLength = 6; // Change the minimum length as needed
     return typeof value === 'string' && value.length >= minLength;
+  }
+
+  
+  submitForm() :void{
+    this.submitted = true;
+    if (this.LoginForm.invalid) {
+      return;
+    }
+    console.log(this.LoginForm.value);
+    // Call your authentication service method here
+    this.authService.login(this.LoginForm.value.Email,this.LoginForm.value.Password).subscribe()
   }
 }
