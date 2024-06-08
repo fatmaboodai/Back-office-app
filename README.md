@@ -2,13 +2,14 @@
 ```mermaid
 graph TD;
     subgraph Frontend
-        SignUp[Sign up]
-        LogIn[Log in]
+        SignUp[Manager Sign up]
+        SignUp --> LogIn
+        LogIn[Manager Log in]
         Routers[Routers to different views]
         FormPage[Form page]
         CustomerList[Customer list]
-CustomerList --> CustomerComponent
- FormPage --> CustomerForm
+        CustomerList --> CustomerComponent
+        FormPage --> CustomerForm
     end
     subgraph Backend
         Server[Server]
@@ -16,21 +17,25 @@ CustomerList --> CustomerComponent
         ConnectDB[Connect to DB]
     end
     subgraph operations
-        AddCustomer(Add a new customer)
-        UpdateCustomer(Update customer details)
-        DeleteCustomer(Delete a customer)
+        AddCustomer(Add)
+        UpdateCustomer(Update details)
+        DeleteCustomer(Delete)
+        GetCustomer(Get)
     end
     subgraph Authentication
         subgraph BackendAuth
             HashPassword[Hash the password]
             JWT[JWT tokens]
+            HashPassword --> JWT
         end
         subgraph FrontendAuth
             AngularJWT[Angular JWT]
         end
         ProtectRouters[Protect routers]
+        LogIn --> BackendAuth
+        API --> ProtectRouters
     end
-    SignUp --> LogIn
+    
     LogIn --> Routers
     Routers --> FormPage
     Routers --> CustomerList
@@ -40,9 +45,10 @@ CustomerList --> CustomerComponent
     API --> ConnectDB
     Server --> API
     AddCustomer --> API
+    CustomerForm--> API
     UpdateCustomer --> API
     DeleteCustomer --> API
-    HashPassword --> JWT
+    GetCustomer-->API
     ProtectRouters --> BackendAuth
     ProtectRouters --> FrontendAuth
 
