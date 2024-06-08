@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -39,12 +39,19 @@ import { CustomerService } from '../../services/CustomerServices/customer.servic
 })
 export class CustomerFormComponent {
   @ViewChild('formDirective') formDirective!: NgForm;
+
   @Output() formSubmitted:EventEmitter<any> = new EventEmitter();
   Genders: string[] = ['M', 'F'];
   managers: Manager[] = []; // Array to store managers
+  isEditMode: boolean = false;
+  customerNumber!: string ;
+
 
   CustomerForm: FormGroup;
-  constructor(private formbuilder: FormBuilder,    private customerService: CustomerService // Inject CustomerService
+  constructor(private formbuilder: FormBuilder, 
+       private customerService: CustomerService ,// Inject CustomerService,
+       private route: ActivatedRoute
+
   ) {
     this.CustomerForm = this.formbuilder.group({
       CustomerName: [
@@ -69,8 +76,6 @@ export class CustomerFormComponent {
       }
     );
   }
-
-
   submitForm(formData:Omit<Customer,'CustomerNumber'>):void {
     console.log(formData)
     if (this.CustomerForm.valid) {
@@ -86,5 +91,6 @@ export class CustomerFormComponent {
         });
     }
   }
-  
+ 
+
 }

@@ -1,11 +1,7 @@
-<tr>
-    <td>{{ customer.CustomerNumber }}</td>
-    <td>{{ customer.CustomerName }}</td>
-    <td>{{ customer.DateOfBirth | date }}</td>
-    <td>{{ customer.Gender }}</td>
-    <td>{{ customer.ManagerID }}</td>
-    <td>
-      <button (click)="onDeleteClick()">Delete</button>
-      <button (click)="onUpdateClick()">Update</button>
-    </td>
-</tr>
+
+    <button mat-icon-button (click)="onDeleteClick()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onUpdateClick()" [routerLink]="['/customers', customer.CustomerNumber]">
+      <mat-icon>edit</mat-icon>
+    </button>

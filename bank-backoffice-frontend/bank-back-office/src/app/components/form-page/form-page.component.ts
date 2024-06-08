@@ -20,5 +20,4 @@ export class FormPageComponent {
   onFormSubmitted(): void {
 console.log("recivied")
   }
-
 }

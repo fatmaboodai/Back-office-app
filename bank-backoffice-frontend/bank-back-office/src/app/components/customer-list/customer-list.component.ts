@@ -1,5 +1,5 @@
 import { Customer } from './../../interfaces/users';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { CustomerService } from '../../services/CustomerServices/customer.service';
 import { CustomerComponent } from '../customer/customer.component';
@@ -11,6 +11,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule for mat-icon
 import { DatePipe } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { CustomerFormComponent } from '../customer-form/customer-form.component';
+
 @Component({
   selector: 'app-customer-list',
   standalone: true,
@@ -24,14 +27,16 @@ import {MatTableModule} from '@angular/material/table';
      MatIconModule,
      DatePipe,
      NgFor,
-     MatTableModule
-
+     MatTableModule,
+     RouterLink,
+     CustomerFormComponent
   ],
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css',
 })
 export class CustomerListComponent {
   displayedColumns: string[] = ['customerNumber', 'name', 'dateOfBirth', 'gender', 'managerId', 'actions'];
+  @Output() editCustomer: EventEmitter<Customer> = new EventEmitter<Customer>();
 
   customers: Customer[] = [];
   constructor(private customerService: CustomerService) {}
@@ -52,8 +57,7 @@ export class CustomerListComponent {
       this.customers = this.customers.filter((c) => c.CustomerNumber !== customer.CustomerNumber);
     });
   }
-  
-  UpdateClick(Customer:Customer):void{
-    alert(`hi ${Customer.CustomerName}`)
+  updateCustomer(customer: Customer): void {
+    this.editCustomer.emit(customer);
   }
 }

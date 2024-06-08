@@ -1,4 +1,4 @@
-<mat-toolbar>
+<!-- <mat-toolbar>
     <span>
       <a mat-button routerLink="/customers">Customer List</a>
     </span>
@@ -9,4 +9,20 @@
       <a mat-button routerLink="/login" routerLinkActive="active-link">Login</a>
     </span>
   </mat-toolbar>
+   -->
+<!-- navigation.component.html -->
+<mat-toolbar>
+  <span>
+    <a mat-button routerLink="/customers">Customer List</a>
+  </span>
   
+  <span *ngIf="isAuthenticated">
+    <a mat-button routerLink="/customers/add" routerLinkActive="active-link">Customer Form</a>
+    <button mat-button (click)="logout()">Logout</button>
+  </span>
+  
+  <span *ngIf="!isAuthenticated">
+    <a mat-button routerLink="/register" routerLinkActive="active-link">Sign up</a>
+    <a mat-button routerLink="/login" routerLinkActive="active-link">Login</a>
+  </span>
+</mat-toolbar>

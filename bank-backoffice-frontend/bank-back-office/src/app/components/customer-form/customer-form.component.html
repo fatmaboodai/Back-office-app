@@ -68,8 +68,8 @@
     </div>
 
     <div>
-      <button mat-raised-button type="submit" [disabled]="!CustomerForm.valid" color="primary">
-        Submit
+      <button mat-raised-button type="submit" [disabled]="!CustomerForm.valid" >
+        {{ isEditMode ? 'Update' : 'Submit' }}
       </button>
     </div>
   </mat-card>

@@ -13,8 +13,8 @@ const routes: Routes = [
     // { path: 'customers/:id', component: CustomerListComponent },
     { path: 'customers', component: CustomerListComponent, canActivate:[AuthGuard] },
     { path: 'customers/add', component: FormPageComponent ,canActivate:[AuthGuard]},
-    { path: 'customers/edit/:id', component: CustomerFormComponent,canActivate:[AuthGuard] },
-    // { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'customers/:id', component: FormPageComponent,canActivate:[AuthGuard] },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 
   ];

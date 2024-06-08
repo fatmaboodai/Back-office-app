@@ -1,5 +1,6 @@
 // auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, catchError, tap } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:5000/managers';
   isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
-  private token = localStorage.getItem('token');
+  
 
   ManagerId!: Pick<Manager, 'ManagerID'>;
   httpOptions: { headers: HttpHeaders } = {
@@ -23,13 +24,15 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private errorHandlerService: ErrorHandlerService,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object // Inject PLATFORM_ID
   ) {
     // Check if the token is still valid on initialization
-    
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.isUserLoggedIn$.next(true);
+    if (isPlatformBrowser(this.platformId)) { // Check if running in a browser
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.isUserLoggedIn$.next(true);
+      }
     }
   }
 
@@ -67,5 +70,13 @@ export class AuthService {
           }>('login')
         )
       );
+  }
+
+  logout(): void {
+    // Clear local storage and update user login status
+    localStorage.removeItem('token');
+    this.isUserLoggedIn$.next(false);
+    // Navigate to login page or any other appropriate page after logout
+    this.router.navigate(['/login']);
   }
 }

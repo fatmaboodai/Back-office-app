@@ -6,6 +6,7 @@ import { first, catchError, tap } from 'rxjs/operators';
 import { Customer, Manager } from '../../interfaces/users';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +34,11 @@ export class CustomerService {
   }
   AddCustomer(Customer: Omit<Customer, 'CustomerNumber'>): Observable<Customer> {
     return this.http
-      .post<Customer>(`${this.apiUrl}/add`, Customer,this.httpoptions)
+      .post<Customer>(`${this.apiUrl}/add`, Customer, this.httpoptions)
       .pipe(
+        tap(() => {
+          this.router.navigate(['customers']);
+        }),
         catchError(this.errorHandlerService.handleError<Customer>('AddCustomer'))
       );
   }
@@ -46,13 +50,14 @@ export class CustomerService {
       );
   }
   
-  updateCustomer(customer: Customer,CustomerNumber: Pick<Customer,"CustomerNumber">): Observable<{}> {
+  updateCustomer(id: string, customer: Omit<Customer, 'CustomerNumber'>): Observable<{}> {
     return this.http
-      .put<Customer>(`${this.apiUrl}/${CustomerNumber}`, customer, this.httpoptions)
+      .put<Customer>(`${this.apiUrl}/${id}`, customer, this.httpoptions)
       .pipe(
         catchError(this.errorHandlerService.handleError<Customer>('updateCustomer'))
       );
   }
+  
   getManagers(): Observable<Manager[]> {
     return this.http.get<Manager[]>('http://localhost:5000/managers')
   }
