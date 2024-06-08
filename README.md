@@ -18,9 +18,16 @@ graph TD;
     end
     subgraph operations
         AddCustomer(Add)
-        UpdateCustomer(Update)
+        UpdateCustomer(Update details)
         DeleteCustomer(Delete)
         GetCustomer(Get)
+        SignUp --> API
+        LogIn --> API
+        Routers --> API
+        FormPage --> API
+        CustomerList --> API
+        CustomerComponent --> API
+        CustomerForm --> API
     end
     subgraph Authentication
         subgraph BackendAuth
