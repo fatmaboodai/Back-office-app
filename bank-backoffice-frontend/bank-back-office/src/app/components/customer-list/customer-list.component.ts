@@ -59,7 +59,8 @@ export class CustomerListComponent {
     });
   }
   updateCustomer(customer: Customer): void {
-    console.log(customer)
+    console.log(customer.CustomerNumber)
+    this.editCustomer.emit(customer);
   }
 
   
