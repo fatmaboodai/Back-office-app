@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { Customer } from '../../interfaces/users';
+import { Customer, Manager } from '../../interfaces/users';
 import { CustomerService } from '../../services/CustomerServices/customer.service';
 @Component({
   selector: 'app-customer-form',
@@ -41,11 +41,8 @@ export class CustomerFormComponent {
   @ViewChild('formDirective') formDirective!: NgForm;
   @Output() formSubmitted:EventEmitter<any> = new EventEmitter();
   Genders: string[] = ['M', 'F'];
-  Managers = [
-    { id: 1, name: 'Manager 1' },
-    { id: 2, name: 'Manager 2' },
-    { id: 26, name: 'Manager 3' },
-  ];
+  managers: Manager[] = []; // Array to store managers
+
   CustomerForm: FormGroup;
   constructor(private formbuilder: FormBuilder,    private customerService: CustomerService // Inject CustomerService
   ) {
@@ -58,9 +55,24 @@ export class CustomerFormComponent {
       Gender: ['', Validators.required],
       ManagerID: [null, Validators.required],
     });
+    this.fetchManagers();
+
   }
 
-  submitForm(formData:Customer):void {
+  fetchManagers() {
+    this.customerService.getManagers().subscribe(
+      (managers) => {
+        this.managers = managers;
+      },
+      (error) => {
+        console.error('Error fetching managers:', error);
+      }
+    );
+  }
+
+
+  submitForm(formData:Omit<Customer,'CustomerNumber'>):void {
+    console.log(formData)
     if (this.CustomerForm.valid) {
       // Call the CustomerService method to add customer
       this.customerService

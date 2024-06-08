@@ -127,8 +127,8 @@ exports.getAllCustomers = async (req, res) => {
 
 exports.addCustomer = async (req, res) => {
     try {
-        const { CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID } = req.body;
-        if (!CustomerNumber || !CustomerName || !DateOfBirth || !Gender || !ManagerID) {
+        const { CustomerName, DateOfBirth, Gender, ManagerID } = req.body;
+        if ( !CustomerName || !DateOfBirth || !Gender || !ManagerID) {
             return res.status(400).json({ error: 'All fields are required' });
         }
         
@@ -136,7 +136,7 @@ exports.addCustomer = async (req, res) => {
         //     return res.status(403).json({ error: 'Unauthorized action' });
         // }
 
-        const customer = await Customer.create({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID });
+        const customer = await Customer.create({ CustomerName, DateOfBirth, Gender, ManagerID });
         res.status(201).json(customer);
     } catch (err) {
         res.status(500).json({ error: err.message });

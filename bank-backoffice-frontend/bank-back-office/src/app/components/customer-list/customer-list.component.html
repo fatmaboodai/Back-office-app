@@ -1,4 +1,49 @@
+<!-- customer-list.component.html -->
+<table mat-table [dataSource]="customers">
+  <!-- Customer Number Column -->
+  <ng-container matColumnDef="customerNumber">
+    <th mat-header-cell *matHeaderCellDef> Customer Number </th>
+    <td mat-cell *matCellDef="let customer"> {{ customer.CustomerNumber }} </td>
+  </ng-container>
 
-  <p>
-    customer list
-  </p>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let customer"> {{ customer.CustomerName }} </td>
+  </ng-container>
+
+  <!-- Date of Birth Column -->
+  <ng-container matColumnDef="dateOfBirth">
+    <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+    <td mat-cell *matCellDef="let customer"> {{ customer.DateOfBirth | date }} </td>
+  </ng-container>
+
+  <!-- Gender Column -->
+  <ng-container matColumnDef="gender">
+    <th mat-header-cell *matHeaderCellDef> Gender </th>
+    <td mat-cell *matCellDef="let customer"> {{ customer.Gender }} </td>
+  </ng-container>
+
+  <!-- Manager ID Column -->
+  <ng-container matColumnDef="managerId">
+    <th mat-header-cell *matHeaderCellDef> Manager ID </th>
+    <td mat-cell *matCellDef="let customer"> {{ customer.ManagerID }} </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let customer">
+      <button mat-icon-button (click)="deleteCustomer(customer)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="UpdateClick(customer)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Define table rows -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

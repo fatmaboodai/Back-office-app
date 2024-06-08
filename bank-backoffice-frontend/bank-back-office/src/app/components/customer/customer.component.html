@@ -1,0 +1,11 @@
+<tr>
+    <td>{{ customer.CustomerNumber }}</td>
+    <td>{{ customer.CustomerName }}</td>
+    <td>{{ customer.DateOfBirth | date }}</td>
+    <td>{{ customer.Gender }}</td>
+    <td>{{ customer.ManagerID }}</td>
+    <td>
+      <button (click)="onDeleteClick()">Delete</button>
+      <button (click)="onUpdateClick()">Update</button>
+    </td>
+</tr>

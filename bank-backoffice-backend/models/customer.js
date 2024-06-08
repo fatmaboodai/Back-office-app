@@ -6,7 +6,8 @@ const Customer = sequelize.define('Customer', {
     CustomerNumber: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        unique: true
+        unique: true,
+        autoIncrement:true
     },
     CustomerName: {
         type: DataTypes.STRING(255),

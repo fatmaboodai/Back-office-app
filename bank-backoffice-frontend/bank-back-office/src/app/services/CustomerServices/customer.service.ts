@@ -3,7 +3,6 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, catchError, tap } from 'rxjs/operators';
-
 import { Customer, Manager } from '../../interfaces/users';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { Router } from '@angular/router';
@@ -12,10 +11,13 @@ import { Router } from '@angular/router';
 })
 export class CustomerService {
   private apiUrl = 'http://localhost:5000/customers'; 
-    
+  private token = localStorage.getItem('token');
+
   httpoptions: { headers: HttpHeaders } = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${this.token}`
+    }),  };
 
   constructor(private http:HttpClient,
     private errorHandlerService: ErrorHandlerService,
@@ -24,7 +26,7 @@ export class CustomerService {
 
   getCustomers(): Observable<Customer[]> {
     return this.http
-      .get<Customer[]>(this.apiUrl, {responseType:'json'})
+      .get<Customer[]>(this.apiUrl,this.httpoptions)
       .pipe(
         catchError(this.errorHandlerService.handleError<Customer[]>('getCustomers',[]))
       );
@@ -36,14 +38,14 @@ export class CustomerService {
         catchError(this.errorHandlerService.handleError<Customer>('AddCustomer'))
       );
   }
-
   DeleteCustomer(CustomerNumber: Pick<Customer, 'CustomerNumber'>): Observable<{}> {
     return this.http
-      .delete<Customer>(`${this.apiUrl}/${CustomerNumber}`,this.httpoptions)
+      .delete<Customer>(`${this.apiUrl}/${CustomerNumber.CustomerNumber}`, this.httpoptions)
       .pipe(
         catchError(this.errorHandlerService.handleError<Customer>('DeleteCustomer'))
       );
   }
+  
   updateCustomer(customer: Customer,CustomerNumber: Pick<Customer,"CustomerNumber">): Observable<{}> {
     return this.http
       .put<Customer>(`${this.apiUrl}/${CustomerNumber}`, customer, this.httpoptions)
@@ -54,4 +56,5 @@ export class CustomerService {
   getManagers(): Observable<Manager[]> {
     return this.http.get<Manager[]>('http://localhost:5000/managers')
   }
+  
 }

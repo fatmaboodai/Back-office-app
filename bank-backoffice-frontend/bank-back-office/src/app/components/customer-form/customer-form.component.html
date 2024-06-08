@@ -57,8 +57,8 @@
       <mat-form-field appearance="fill" class="form-field">
         <mat-label for="ManagerID">Manager ID</mat-label>
         <mat-select id="ManagerID" formControlName="ManagerID" required>
-          <mat-option *ngFor="let manager of Managers" [value]="manager.id">
-            {{ manager.name }}
+          <mat-option *ngFor="let manager of managers" [value]="manager.ManagerID">
+            {{ manager.ManagerName }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="CustomerForm.get('ManagerID')?.hasError('required')">
