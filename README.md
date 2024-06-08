@@ -18,7 +18,7 @@ graph TD;
     end
     subgraph operations
         AddCustomer(Add)
-        UpdateCustomer(Update details)
+        UpdateCustomer(Update)
         DeleteCustomer(Delete)
         GetCustomer(Get)
     end
