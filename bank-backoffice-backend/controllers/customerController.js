@@ -2,7 +2,7 @@ const  Customer  = require('../models/customer');
 
 // // can manage all customers
 // // Get all customers associated with a specific manager ID
-exports.getAllCustomers = async (req, res) => {
+exports.getAllCustomersForM = async (req, res) => {
     try {
         // Extract manager ID from request parameters
         const { ManagerID } = req.params;
@@ -16,6 +16,20 @@ exports.getAllCustomers = async (req, res) => {
 
         // Send JSON response with customers
         res.json(customers);
+    } catch (err) {
+        // Handle any errors and send error response
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getAllCustomers = async (req, res) => {
+    try {
+        const customers = await Customer.findAll(); // Retrieve all managers
+
+        // Send JSON response with customers
+        res.json(customers);
+        ;
+
     } catch (err) {
         // Handle any errors and send error response
         res.status(500).json({ error: err.message });
@@ -118,9 +132,9 @@ exports.addCustomer = async (req, res) => {
             return res.status(400).json({ error: 'All fields are required' });
         }
         
-        if (req.manager.id !== ManagerID) {
-            return res.status(403).json({ error: 'Unauthorized action' });
-        }
+        // if (req.manager.id !== ManagerID) {
+        //     return res.status(403).json({ error: 'Unauthorized action' });
+        // }
 
         const customer = await Customer.create({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID });
         res.status(201).json(customer);
@@ -142,11 +156,10 @@ exports.updateCustomer = async (req, res) => {
             return res.status(404).json({ error: 'Customer not found' });
         }
 
-        // Check if the manager is authorized to update this customer
-        if (customer.ManagerID !== req.manager.id) {
-            return res.status(403).json({ error: 'Unauthorized action' });
-        }
-
+        // // Check if the manager is authorized to update this customer
+        // if (customer.ManagerID !== req.manager.id) {
+        //     return res.status(403).json({ error: 'Unauthorized action' });
+        // }
         // Update customer
         await Customer.update({ CustomerNumber, CustomerName, DateOfBirth, Gender, ManagerID }, { where: { CustomerNumber: id } });
         res.json({ message: 'Customer updated successfully' });
@@ -167,10 +180,10 @@ exports.deleteCustomer = async (req, res) => {
             return res.status(404).json({ error: 'Customer not found' });
         }
 
-        // Check if the manager is authorized to delete this customer
-        if (customer.ManagerID !== req.manager.id) {
-            return res.status(403).json({ error: 'Unauthorized action' });
-        }
+        // // Check if the manager is authorized to delete this customer
+        // if (customer.ManagerID !== req.manager.id) {
+        //     return res.status(403).json({ error: 'Unauthorized action' });
+        // }
 
         // Delete customer
         await customer.destroy();

@@ -1,7 +1,8 @@
 <form
   style="padding: 50px;"
   [formGroup]="CustomerForm"
-  (ngSubmit)="submitForm()"
+  (ngSubmit)="submitForm(CustomerForm.value)"
+  #formDirective="ngForm"
 >
   <mat-card>
     <div>

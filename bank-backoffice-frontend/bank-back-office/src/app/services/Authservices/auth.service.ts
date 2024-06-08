@@ -33,6 +33,11 @@ export class AuthService {
         catchError(this.errorHandlerService.handleError<Manager>('register'))
       );
   }
+
+  checkLogin(): Observable<boolean> {
+    // Your logic to check if the user is logged in
+    return this.isUserLoggedIn$;
+  }
   login(
     Email: Pick<Manager, 'Email'>,
     Password: Pick<Manager, 'Password'>
@@ -48,7 +53,7 @@ export class AuthService {
           this.isUserLoggedIn$.next(true);
           this.ManagerId = tokenObject.ManagerId;
           localStorage.setItem('token', tokenObject.token);
-          localStorage.setItem('ManagerId', JSON.stringify(tokenObject.ManagerId));
+          localStorage.setItem('ManagerId', tokenObject.ManagerId);
           this.router.navigate(['customers']);
         }),
         catchError(

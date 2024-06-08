@@ -22,7 +22,10 @@ const verifyToken = require('../middleware/verifyToken');
 const customerController = require('../controllers/customerController');
 
 // Route to get all customers for a specific manager
-router.get('/:ManagerID',verifyToken, customerController.getAllCustomers);
+router.get('/:ManagerID',verifyToken, customerController.getAllCustomersForM);
+
+// Route to get all customers for a specific manager
+router.get('/',verifyToken, customerController.getAllCustomers);
 
 // Route to add a new customer for a specific manager
 router.post('/add', verifyToken, customerController.addCustomer);

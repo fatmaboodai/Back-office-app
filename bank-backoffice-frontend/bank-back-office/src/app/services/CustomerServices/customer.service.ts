@@ -1,19 +1,56 @@
-import { HttpClient } from '@angular/common/http';
+import { response } from 'express';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Customer, Manager } from '../../interfaces/users';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { first, catchError, tap } from 'rxjs/operators';
 
+import { Customer, Manager } from '../../interfaces/users';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  constructor(private http:HttpClient) {}
+  private apiUrl = 'http://localhost:5000/customers'; 
+    
+  httpoptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
 
+  constructor(private http:HttpClient,
+    private errorHandlerService: ErrorHandlerService,
+    private router:Router
+  ) {}
 
   getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>('http://localhost:5000/customers')
+    return this.http
+      .get<Customer[]>(this.apiUrl, {responseType:'json'})
+      .pipe(
+        catchError(this.errorHandlerService.handleError<Customer[]>('getCustomers',[]))
+      );
+  }
+  AddCustomer(Customer: Omit<Customer, 'CustomerNumber'>): Observable<Customer> {
+    return this.http
+      .post<Customer>(`${this.apiUrl}/add`, Customer,this.httpoptions)
+      .pipe(
+        catchError(this.errorHandlerService.handleError<Customer>('AddCustomer'))
+      );
   }
 
+  DeleteCustomer(CustomerNumber: Pick<Customer, 'CustomerNumber'>): Observable<{}> {
+    return this.http
+      .delete<Customer>(`${this.apiUrl}/${CustomerNumber}`,this.httpoptions)
+      .pipe(
+        catchError(this.errorHandlerService.handleError<Customer>('DeleteCustomer'))
+      );
+  }
+  updateCustomer(customer: Customer,CustomerNumber: Pick<Customer,"CustomerNumber">): Observable<{}> {
+    return this.http
+      .put<Customer>(`${this.apiUrl}/${CustomerNumber}`, customer, this.httpoptions)
+      .pipe(
+        catchError(this.errorHandlerService.handleError<Customer>('updateCustomer'))
+      );
+  }
   getManagers(): Observable<Manager[]> {
     return this.http.get<Manager[]>('http://localhost:5000/managers')
   }

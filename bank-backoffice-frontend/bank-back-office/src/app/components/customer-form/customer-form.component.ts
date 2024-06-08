@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
+  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -14,7 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { Customer } from '../../interfaces/users';
+import { CustomerService } from '../../services/CustomerServices/customer.service';
 @Component({
   selector: 'app-customer-form',
   standalone: true,
@@ -30,21 +32,23 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatNativeDateModule
   ],
   templateUrl: './customer-form.component.html',
   styleUrls: ['./customer-form.component.css'],
 })
 export class CustomerFormComponent {
+  @ViewChild('formDirective') formDirective!: NgForm;
+  @Output() formSubmitted:EventEmitter<any> = new EventEmitter();
   Genders: string[] = ['M', 'F'];
   Managers = [
     { id: 1, name: 'Manager 1' },
     { id: 2, name: 'Manager 2' },
-    { id: 3, name: 'Manager 3' },
+    { id: 26, name: 'Manager 3' },
   ];
   CustomerForm: FormGroup;
-
-  constructor(private formbuilder: FormBuilder) {
+  constructor(private formbuilder: FormBuilder,    private customerService: CustomerService // Inject CustomerService
+  ) {
     this.CustomerForm = this.formbuilder.group({
       CustomerName: [
         '',
@@ -56,9 +60,19 @@ export class CustomerFormComponent {
     });
   }
 
-  submitForm() {
+  submitForm(formData:Customer):void {
     if (this.CustomerForm.valid) {
-      console.log(this.CustomerForm.value);
+      // Call the CustomerService method to add customer
+      this.customerService
+        .AddCustomer(formData)
+        .subscribe((response) => {
+          // Emit the form data to the parent component
+          this.formSubmitted.emit(response);
+          // Reset the form after submission
+          this.CustomerForm.reset();
+          this.formDirective.resetForm();
+        });
     }
   }
+  
 }
