@@ -24,6 +24,8 @@ const customerController = require('../controllers/customerController');
 // Route to get all customers for a specific manager
 router.get('/:ManagerID',verifyToken, customerController.getAllCustomersForM);
 
+router.get('/:id',verifyToken, customerController.getOneCustomr);
+
 // Route to get all customers for a specific manager
 router.get('/',verifyToken, customerController.getAllCustomers);
 
@@ -35,5 +37,6 @@ router.put('/:id', verifyToken, customerController.updateCustomer);
 
 // Route to delete a customer (for the manager who created it)
 router.delete('/:id', verifyToken, customerController.deleteCustomer);
+
 
 module.exports = router;

@@ -22,6 +22,25 @@ exports.getAllCustomersForM = async (req, res) => {
     }
 };
 
+exports.getOneCustomr = async (req, res) => {
+    try {
+        // Extract manager ID from request parameters
+        const { CustomerID } = req.params;
+
+        // Find all customers where managerId matches the specified ID
+        const customers = await Customer.findAll({
+            where: {
+                CustomerName: CustomerID
+            }
+        });
+
+        // Send JSON response with customers
+        res.json(customers);
+    } catch (err) {
+        // Handle any errors and send error response
+        res.status(500).json({ error: err.message });
+    }
+};
 exports.getAllCustomers = async (req, res) => {
     try {
         const customers = await Customer.findAll(); // Retrieve all managers

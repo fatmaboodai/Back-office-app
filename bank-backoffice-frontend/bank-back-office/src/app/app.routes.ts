@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { ManagerLoginComponent } from './components/manager-login/manager-login.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
-import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { ManagerRegisterComponent } from './components/manager-register/manager-register.component';
 import { FormPageComponent } from './components/form-page/form-page.component';
 import { AuthGuard } from './services/auth-guard/auth-guard.service';

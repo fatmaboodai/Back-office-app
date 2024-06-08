@@ -50,6 +50,11 @@ export class CustomerService {
       );
   }
   
+
+  getCustomerById(customerId: string): Observable<Customer> {
+    return this.http.get<Customer>(`${this.apiUrl}/${customerId}`,this.httpoptions);
+  }
+
   updateCustomer(id: string, customer: Omit<Customer, 'CustomerNumber'>): Observable<{}> {
     return this.http
       .put<Customer>(`${this.apiUrl}/${id}`, customer, this.httpoptions)

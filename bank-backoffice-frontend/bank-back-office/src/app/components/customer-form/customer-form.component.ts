@@ -43,9 +43,14 @@ export class CustomerFormComponent {
   @Output() formSubmitted:EventEmitter<any> = new EventEmitter();
   Genders: string[] = ['M', 'F'];
   managers: Manager[] = []; // Array to store managers
-  isEditMode: boolean = false;
-  customerNumber!: string ;
-
+  customer: Customer = {
+    CustomerNumber:2222,
+    CustomerName: 'John Doe',
+    DateOfBirth: '1990-01-01', // Assuming a date format of 'YYYY-MM-DD'
+    Gender: 'M',
+    ManagerID: 2 // Assuming a valid manager ID
+  };
+  
 
   CustomerForm: FormGroup;
   constructor(private formbuilder: FormBuilder, 

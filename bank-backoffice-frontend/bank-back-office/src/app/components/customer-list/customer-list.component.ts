@@ -39,6 +39,7 @@ export class CustomerListComponent {
   @Output() editCustomer: EventEmitter<Customer> = new EventEmitter<Customer>();
 
   customers: Customer[] = [];
+
   constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
@@ -58,6 +59,8 @@ export class CustomerListComponent {
     });
   }
   updateCustomer(customer: Customer): void {
-    this.editCustomer.emit(customer);
+    console.log(customer)
   }
+
+  
 }
