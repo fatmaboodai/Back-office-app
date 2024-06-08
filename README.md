@@ -5,11 +5,15 @@ graph TD;
         SignUp[Manager Sign up]
         SignUp --> LogIn
         LogIn[Manager Log in]
+        LogIn --> Routers
         Routers[Routers to different views]
+        Routers --> FormPage
+        Routers --> CustomerList
         FormPage[Form page]
+        FormPage --> CustomerForm
         CustomerList[Customer list]
         CustomerList --> CustomerComponent
-        FormPage --> CustomerForm
+        CustomerComponent[Customer Component]
     end
     subgraph Backend
         Server[Server]
@@ -21,13 +25,10 @@ graph TD;
         UpdateCustomer(Update details)
         DeleteCustomer(Delete)
         GetCustomer(Get)
-        SignUp --> API
-        LogIn --> API
-        Routers --> API
-        FormPage --> API
-        CustomerList --> API
-        CustomerComponent --> API
-        CustomerForm --> API
+        AddCustomer --> API
+        UpdateCustomer --> API
+        DeleteCustomer --> API
+        GetCustomer --> API
     end
     subgraph Authentication
         subgraph BackendAuth
@@ -39,25 +40,17 @@ graph TD;
             AngularJWT[Angular JWT]
         end
         ProtectRouters[Protect routers]
-        LogIn --> BackendAuth
-        API --> ProtectRouters
+        LogIn --> FrontendAuth
+        ProtectRouters --> FrontendAuth
+FrontendAuth --> BackendAuth
+
     end
-    
-    LogIn --> Routers
-    Routers --> FormPage
-    Routers --> CustomerList
-   
-   
+
     CustomerComponent --> API
-    API --> ConnectDB
-    Server --> API
-    AddCustomer --> API
     CustomerForm--> API
-    UpdateCustomer --> API
-    DeleteCustomer --> API
-    GetCustomer-->API
-    ProtectRouters --> BackendAuth
-    ProtectRouters --> FrontendAuth
+    API --> Server
+    API --> ConnectDB
+    API --> ProtectRouters
 
     classDef frontendClass fill:#FFCCCC,stroke:#333,stroke-width:2px;
     classDef backendClass fill:#CCFFCC,stroke:#333,stroke-width:2px;
@@ -68,6 +61,9 @@ graph TD;
     class Backend backendClass;
     class Services servicesClass;
     class Authentication authClass;
+
+
+
 
 
 ```
