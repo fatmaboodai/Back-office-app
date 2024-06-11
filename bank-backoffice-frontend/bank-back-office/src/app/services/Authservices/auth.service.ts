@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:5000/managers';
   isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
-  
 
   ManagerId!: Pick<Manager, 'ManagerID'>;
   httpOptions: { headers: HttpHeaders } = {

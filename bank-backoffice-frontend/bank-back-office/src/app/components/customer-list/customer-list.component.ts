@@ -47,7 +47,7 @@ export class CustomerListComponent {
   }
 
   loadCustomers(): void {
-    this.customerService.getCustomers().subscribe((customers) => {
+    this.customerService.getCustomers().subscribe((customers: Customer[]) => {
       this.customers = customers;
     });
   }

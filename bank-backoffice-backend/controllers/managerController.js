@@ -29,8 +29,6 @@ exports.getManagerById = async (req, res) => {
 
 
 
-
-
 exports.registerManager = async (req, res) => {
     try {
         const { ManagerName, Email, Password } = req.body;

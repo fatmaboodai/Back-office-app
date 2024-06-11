@@ -4,7 +4,7 @@ import { CustomerService } from '../../services/CustomerServices/customer.servic
 import { AuthService } from '../../services/Authservices/auth.service';
 import { Manager } from '../../interfaces/users';
 import { Customer } from '../../interfaces/users';
-import { Observable, async } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatCard } from '@angular/material/card';
 import { NgFor } from '@angular/common';
 @Component({

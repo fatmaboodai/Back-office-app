@@ -1,4 +1,5 @@
 # Back-office-app
+<<<<<<< Updated upstream
 ```mermaid
 graph TD;
     subgraph Frontend
@@ -67,3 +68,5 @@ FrontendAuth --> BackendAuth
 
 
 ```
+=======
+>>>>>>> Stashed changes

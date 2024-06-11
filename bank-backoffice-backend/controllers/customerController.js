@@ -25,12 +25,12 @@ exports.getAllCustomersForM = async (req, res) => {
 exports.getOneCustomr = async (req, res) => {
     try {
         // Extract manager ID from request parameters
-        const { CustomerID } = req.params;
+        const { id } = req.params;
 
         // Find all customers where managerId matches the specified ID
-        const customers = await Customer.findAll({
+        const customers = await Customer.findOne({
             where: {
-                CustomerName: CustomerID
+                CustomerNumber: id
             }
         });
 

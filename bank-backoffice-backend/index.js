@@ -19,6 +19,8 @@ app.use(cors({
 
 app.use('/customers', customerRouter);
 app.use('/managers', managerRouter);
+
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(

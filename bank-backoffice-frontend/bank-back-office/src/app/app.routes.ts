@@ -14,7 +14,7 @@ const routes: Routes = [
     { path: 'customers/add', component: FormPageComponent ,canActivate:[AuthGuard]},
     { path: 'customers/:id', component: FormPageComponent,canActivate:[AuthGuard] },
     { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: '**', redirectTo: '' },
+    // { path: '**', redirectTo: '' },
 
   ];
 

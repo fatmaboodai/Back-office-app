@@ -188,14 +188,13 @@ export class CustomerFormComponent {
         this.customerService.getCustomerById(this.customerNumber).subscribe((customer) => {
           this.customer = customer;
           console.log(typeof(this.customer))
-          console.log(this.customer['0'])
-  
+          console.log(this.customer)
           // Patch the form with customer details
           this.CustomerForm.patchValue({
-            CustomerName: this.customer['0']['CustomerName'],
-            DateOfBirth: this.customer['0']['DateOfBirth'],
-            Gender: this.customer['0']['Gender'],
-            ManagerID: this.customer['0']['ManagerID'],
+            CustomerName: this.customer['CustomerName'],
+            DateOfBirth: this.customer['DateOfBirth'],
+            Gender: this.customer['Gender'],
+            ManagerID: this.customer['ManagerID'],
           });
         });
       }
