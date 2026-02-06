@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "fatma@2001$_",
+    "username": "postgres",
+    "password": "12345",
     "database": "bank_app",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }
